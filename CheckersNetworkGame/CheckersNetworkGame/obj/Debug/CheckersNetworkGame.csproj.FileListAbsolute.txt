@@ -11,3 +11,16 @@ C:\Users\Kuba\Documents\Visual Studio 2015\Projects\CheckersNetworkGame\Checkers
 C:\Users\Kuba\Documents\Visual Studio 2015\Projects\CheckersNetworkGame\CheckersNetworkGame\obj\Debug\CheckersNetworkGame.pdb
 C:\Users\Kuba\Documents\Visual Studio 2015\Projects\CheckersNetworkGame\CheckersNetworkGame\obj\Debug\CheckersNetworkGame.ClientGame.resources
 C:\Users\Kuba\Documents\Visual Studio 2015\Projects\CheckersNetworkGame\CheckersNetworkGame\obj\Debug\CheckersNetworkGame.ServerGame.resources
+F:\KUBA\MAGISTERKA\Semestr2\Programowanie sieciowe\ProjektWarcaby\CheckersNetworkGame\CheckersNetworkGame\bin\Debug\CheckersNetworkGame.exe.config
+F:\KUBA\MAGISTERKA\Semestr2\Programowanie sieciowe\ProjektWarcaby\CheckersNetworkGame\CheckersNetworkGame\obj\Debug\CheckersNetworkGame.exe
+F:\KUBA\MAGISTERKA\Semestr2\Programowanie sieciowe\ProjektWarcaby\CheckersNetworkGame\CheckersNetworkGame\obj\Debug\CheckersNetworkGame.pdb
+F:\KUBA\MAGISTERKA\Semestr2\Programowanie sieciowe\ProjektWarcaby\CheckersNetworkGame\CheckersNetworkGame\bin\Debug\CheckersNetworkGame.exe
+F:\KUBA\MAGISTERKA\Semestr2\Programowanie sieciowe\ProjektWarcaby\CheckersNetworkGame\CheckersNetworkGame\bin\Debug\CheckersNetworkGame.pdb
+F:\KUBA\MAGISTERKA\Semestr2\Programowanie sieciowe\ProjektWarcaby\CheckersNetworkGame\CheckersNetworkGame\obj\Debug\CheckersNetworkGame.csprojResolveAssemblyReference.cache
+F:\KUBA\MAGISTERKA\Semestr2\Programowanie sieciowe\ProjektWarcaby\CheckersNetworkGame\CheckersNetworkGame\obj\Debug\CheckersNetworkGame.Client.resources
+F:\KUBA\MAGISTERKA\Semestr2\Programowanie sieciowe\ProjektWarcaby\CheckersNetworkGame\CheckersNetworkGame\obj\Debug\CheckersNetworkGame.Form1.resources
+F:\KUBA\MAGISTERKA\Semestr2\Programowanie sieciowe\ProjektWarcaby\CheckersNetworkGame\CheckersNetworkGame\obj\Debug\CheckersNetworkGame.ClientGame.resources
+F:\KUBA\MAGISTERKA\Semestr2\Programowanie sieciowe\ProjektWarcaby\CheckersNetworkGame\CheckersNetworkGame\obj\Debug\CheckersNetworkGame.Properties.Resources.resources
+F:\KUBA\MAGISTERKA\Semestr2\Programowanie sieciowe\ProjektWarcaby\CheckersNetworkGame\CheckersNetworkGame\obj\Debug\CheckersNetworkGame.Server.resources
+F:\KUBA\MAGISTERKA\Semestr2\Programowanie sieciowe\ProjektWarcaby\CheckersNetworkGame\CheckersNetworkGame\obj\Debug\CheckersNetworkGame.ServerGame.resources
+F:\KUBA\MAGISTERKA\Semestr2\Programowanie sieciowe\ProjektWarcaby\CheckersNetworkGame\CheckersNetworkGame\obj\Debug\CheckersNetworkGame.csproj.GenerateResource.Cache
