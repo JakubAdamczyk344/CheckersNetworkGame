@@ -45,6 +45,7 @@ namespace CheckersNetworkGame
                     board[i, j].Size = new Size(50, 50);
                     board[i, j].Location = new Point((j + 1) * 50, (i + 1) * 50);
                     board[i, j].state = "empty";
+                    board[i, j].FlatStyle = FlatStyle.Flat;
                     if ((i%2==0 && j%2==0)||(i % 2 == 1 && j % 2 == 1))
                     {
                         board[i, j].BackgroundImage = Properties.Resources.emptyLight;
@@ -53,7 +54,7 @@ namespace CheckersNetworkGame
                     {
                         board[i, j].BackgroundImage = Properties.Resources.emptyDark;
                     }
-                    //setBlack(i, j);
+                    
                     board[i, j].Click += (sender1, ex) => this.movePawn(row, column);
                 }
             }
@@ -68,6 +69,8 @@ namespace CheckersNetworkGame
             textBox3.Text = "Pozycja: " + row + column;
             if ((click==1) && (board[row, column].state == "lightPawn"))
             {
+                board[row, column].FlatAppearance.BorderColor = Color.Green;
+                board[row, column].FlatAppearance.BorderSize = 3;
                 whichPawnMoveRow = row;
                 whichPawnMoveColumn = column;
                 click++;
@@ -83,7 +86,19 @@ namespace CheckersNetworkGame
                     click = 1;
                     setEmpty(whichPawnMoveRow, whichPawnMoveColumn);
                     setLight(wherePawnMoveRow, wherePawnMoveColumn);
+                    board[whichPawnMoveRow, whichPawnMoveColumn].FlatAppearance.BorderColor = Color.Black;
+                    board[whichPawnMoveRow, whichPawnMoveColumn].FlatAppearance.BorderSize = 1;
+                    server.ServerSend(whichPawnMoveRow.ToString() + whichPawnMoveColumn.ToString() + wherePawnMoveRow.ToString() + wherePawnMoveColumn.ToString());
                 }
+            }
+            if ((click == 2) && (board[row, column].state == "lightPawn"))
+            {
+                board[row, column].FlatAppearance.BorderColor = Color.Green;
+                board[row, column].FlatAppearance.BorderSize = 3;
+                board[whichPawnMoveRow, whichPawnMoveColumn].FlatAppearance.BorderColor = Color.Black;
+                board[whichPawnMoveRow, whichPawnMoveColumn].FlatAppearance.BorderSize = 1;
+                whichPawnMoveRow = row;
+                whichPawnMoveColumn = column;
             }
         }
 
@@ -156,6 +171,11 @@ namespace CheckersNetworkGame
             {
                 isMoveLegal = false;
             }
+        }
+
+        protected override void OnFormClosing(FormClosingEventArgs e)
+        {
+            Application.Exit();
         }
     }
 }
