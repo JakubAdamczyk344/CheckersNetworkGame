@@ -54,16 +54,6 @@ namespace CheckersNetworkGame
                 ServerGame serverGame = new ServerGame(this);
                 this.Hide();
                 serverGame.Show();
-                //ServerReceive(); //Start Receiving
-                /*new Thread(() => // Creates a New Thread (like a timer)
-                {
-                    client = server.AcceptTcpClient(); //Waits for the Client To Connect
-                    if (client.Connected) // If you are connected
-                    {
-                        client = server.AcceptTcpClient(); //Waits for the Client To Connect
-                        //ServerReceive(); //Start Receiving
-                    }
-                }).Start();*/
             }
             catch (Exception ex)
             {
@@ -86,7 +76,7 @@ namespace CheckersNetworkGame
             Application.Exit();
         }
 
-        public void ServerReceive(TextBox textBox)
+        public void ServerReceive(ServerGame serverGame)
         {
             stream = client.GetStream(); //Gets The Stream of The Connection
             new Thread(() => // Thread (like Timer)
@@ -98,7 +88,8 @@ namespace CheckersNetworkGame
                     stream.Read(data, 0, data.Length); //Receives The Real Data not the Size
                     this.Invoke((MethodInvoker)delegate // To Write the Received data
                     {
-                        textBox.Text = System.Environment.NewLine + "Client : " + Encoding.Default.GetString(data); // Encoding.Default.GetString(data); Converts Bytes Received to String
+                        serverGame.messageFromEnemy =  Encoding.Default.GetString(data); // Encoding.Default.GetString(data); Converts Bytes Received to String
+                        serverGame.enemyMove();
                     });
                 }
             }).Start(); // Start the Thread

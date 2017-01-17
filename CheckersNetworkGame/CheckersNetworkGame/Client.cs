@@ -58,7 +58,7 @@ namespace CheckersNetworkGame
                 //ClientSend(textBox3.Text); // uses the Function ClientSend and the msg as txtSend.Text
             }
         }
-        public void ClientReceive(TextBox textBox)
+        public void ClientReceive(ClientGame clientGame)
         {
 
             stream = client.GetStream(); //Gets The Stream of The Connection
@@ -71,7 +71,8 @@ namespace CheckersNetworkGame
                     stream.Read(data, 0, data.Length); //Receives The Real Data not the Size
                     this.Invoke((MethodInvoker)delegate // To Write the Received data
                     {
-                        textBox.Text = (System.Environment.NewLine + "Server : " + Encoding.Default.GetString(data)); // Encoding.Default.GetString(data); Converts Bytes Received to String
+                        clientGame.messageFromEnemy = Encoding.Default.GetString(data); // Encoding.Default.GetString(data); Converts Bytes Received to String
+                        clientGame.enemyMove();
                     });
                 }
             }).Start(); // Start the Thread

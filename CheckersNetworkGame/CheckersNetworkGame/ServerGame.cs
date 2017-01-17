@@ -27,6 +27,7 @@ namespace CheckersNetworkGame
         int wherePawnMoveRow;
         int wherePawnMoveColumn;
         bool isMoveLegal;
+        public string messageFromEnemy;
 
         Field[,] board = new Field[8,8];
 
@@ -34,7 +35,7 @@ namespace CheckersNetworkGame
         {
             InitializeComponent();
             this.server = server;
-            server.ServerReceive(textBox2);
+            server.ServerReceive(this);
             for (int i = 0; i < 8; i++)
             {
                 for (int j = 0; j < 8;j++)
@@ -100,6 +101,17 @@ namespace CheckersNetworkGame
                 whichPawnMoveRow = row;
                 whichPawnMoveColumn = column;
             }
+        }
+
+        public void enemyMove()
+        {
+            textBox3.Text = messageFromEnemy.Substring(0, 1);
+            whichPawnMoveRow = Convert.ToInt16(messageFromEnemy.Substring(0, 1));
+            whichPawnMoveColumn = Convert.ToInt16(messageFromEnemy.Substring(1, 1));
+            wherePawnMoveRow = Convert.ToInt16(messageFromEnemy.Substring(2, 1));
+            wherePawnMoveColumn = Convert.ToInt16(messageFromEnemy.Substring(3, 1));
+            setEmpty(whichPawnMoveRow, whichPawnMoveColumn);
+            setDark(wherePawnMoveRow, wherePawnMoveColumn);
         }
 
         private void button1_Click(object sender, EventArgs e)

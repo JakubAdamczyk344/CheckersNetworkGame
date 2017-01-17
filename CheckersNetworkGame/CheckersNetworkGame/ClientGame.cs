@@ -27,6 +27,7 @@ namespace CheckersNetworkGame
         int wherePawnMoveRow;
         int wherePawnMoveColumn;
         bool isMoveLegal;
+        public string messageFromEnemy;
 
         Field[,] board = new Field[8, 8];
 
@@ -34,7 +35,7 @@ namespace CheckersNetworkGame
         {
             InitializeComponent();
             this.client = client;
-            client.ClientReceive(textBox2);
+            client.ClientReceive(this);
             for (int i = 0; i < 8; i++)
             {
                 for (int j = 0; j < 8; j++)
@@ -89,7 +90,7 @@ namespace CheckersNetworkGame
                     setDark(wherePawnMoveRow, wherePawnMoveColumn);
                     board[whichPawnMoveRow, whichPawnMoveColumn].FlatAppearance.BorderColor = Color.Black;
                     board[whichPawnMoveRow, whichPawnMoveColumn].FlatAppearance.BorderSize = 1;
-                    client.ClientSend(whichPawnMoveRow.ToString() + whichPawnMoveColumn.ToString() + wherePawnMoveRow.ToString() + wherePawnMoveColumn.ToString());
+                    client.ClientSend(convertRow(whichPawnMoveRow).ToString() + convertColumn(whichPawnMoveColumn).ToString() + convertRow(wherePawnMoveRow).ToString() + convertColumn(wherePawnMoveColumn).ToString());
                 }
             }
             if ((click == 2) && (board[row, column].state == "darkPawn"))
@@ -101,6 +102,17 @@ namespace CheckersNetworkGame
                 whichPawnMoveRow = row;
                 whichPawnMoveColumn = column;
             }
+        }
+
+        public void enemyMove()
+        {
+            textBox3.Text = messageFromEnemy.Substring(0, 1);
+            whichPawnMoveRow = convertRow(Convert.ToInt16(messageFromEnemy.Substring(0, 1)));
+            whichPawnMoveColumn = convertColumn(Convert.ToInt16(messageFromEnemy.Substring(1, 1)));
+            wherePawnMoveRow = convertRow(Convert.ToInt16(messageFromEnemy.Substring(2, 1)));
+            wherePawnMoveColumn = convertColumn(Convert.ToInt16(messageFromEnemy.Substring(3, 1)));
+            setEmpty(whichPawnMoveRow, whichPawnMoveColumn);
+            setLight(wherePawnMoveRow, wherePawnMoveColumn);
         }
 
         private void button1_Click(object sender, EventArgs e)
