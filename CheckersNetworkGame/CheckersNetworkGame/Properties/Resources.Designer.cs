@@ -73,6 +73,26 @@ namespace CheckersNetworkGame.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap emptyDark {
+            get {
+                object obj = ResourceManager.GetObject("emptyDark", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap emptyLight {
+            get {
+                object obj = ResourceManager.GetObject("emptyLight", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap LightPawn {
             get {
                 object obj = ResourceManager.GetObject("LightPawn", resourceCulture);

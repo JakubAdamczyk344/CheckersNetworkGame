@@ -18,7 +18,7 @@ namespace CheckersNetworkGame
 
         class Field : Button
         {
-            public int state;
+            public string state;
         }
 
         Field[,] board = new Field[8, 8];
@@ -39,15 +39,14 @@ namespace CheckersNetworkGame
                     board[i, j].Location = new Point((j + 1) * 50, (i + 1) * 50);
                     if ((i % 2 == 0 && j % 2 == 0) || (i % 2 == 1 && j % 2 == 1))
                     {
-                        board[i, j].BackColor = Color.FromArgb(206, 142, 74); //light
+                        board[i, j].BackgroundImage = Properties.Resources.emptyLight;
                     }
                     else
                     {
-                        board[i, j].BackColor = Color.FromArgb(63, 61, 61); //dark
+                        board[i, j].BackgroundImage = Properties.Resources.emptyDark;
                     }
                     
-                    //setWhite(i, j);
-                    board[i, j].Click += (sender1, ex) => this.ShowPosition(row, column);
+                    board[i, j].Click += (sender1, ex) => this.getPosition(row, column);
                 }
             }
             setPawns();
@@ -57,7 +56,7 @@ namespace CheckersNetworkGame
             }
         }
 
-        public void ShowPosition(int row, int column)
+        public void getPosition(int row, int column)
         {
             textBox3.Text = "Pozycja: " + row + column;
             board[row, column].Text = "Zmieniono";
@@ -116,16 +115,21 @@ namespace CheckersNetworkGame
 
         private void setLight(int row, int column)
         {
-            board[row, column].state = 0;
+            board[row, column].state = "lightPawn";
             board[row, column].BackgroundImage = Properties.Resources.LightPawn;
             board[row, column].BackgroundImageLayout = ImageLayout.Stretch;
         }
 
         private void setDark(int row, int column)
         {
-            board[row, column].state = 1;
+            board[row, column].state = "darkPawn";
             board[row, column].BackgroundImage = Properties.Resources.DarkPawn;
             board[row, column].BackgroundImageLayout = ImageLayout.Stretch;
+        }
+        private void  setEmpty(int row, int column)
+        {
+            board[row, column].state = "empty";
+            board[row, column].BackgroundImage = Properties.Resources.emptyDark;
         }
     }
 }

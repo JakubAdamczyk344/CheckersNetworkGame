@@ -18,8 +18,15 @@ namespace CheckersNetworkGame
         
         class Field : Button
         {
-            public int state;
+            public string state;
         }
+
+        int click=1;
+        int whichPawnMoveRow;
+        int whichPawnMoveColumn;
+        int wherePawnMoveRow;
+        int wherePawnMoveColumn;
+        bool isMoveLegal;
 
         Field[,] board = new Field[8,8];
 
@@ -37,16 +44,17 @@ namespace CheckersNetworkGame
                     board[i, j] = new Field();
                     board[i, j].Size = new Size(50, 50);
                     board[i, j].Location = new Point((j + 1) * 50, (i + 1) * 50);
-                    if((i%2==0 && j%2==0)||(i % 2 == 1 && j % 2 == 1))
+                    board[i, j].state = "empty";
+                    if ((i%2==0 && j%2==0)||(i % 2 == 1 && j % 2 == 1))
                     {
-                        board[i, j].BackColor = Color.FromArgb(206, 142, 74); //light
+                        board[i, j].BackgroundImage = Properties.Resources.emptyLight;
                     }
                     else
                     {
-                        board[i, j].BackColor = Color.FromArgb(63, 61, 61); //dark
+                        board[i, j].BackgroundImage = Properties.Resources.emptyDark;
                     }
                     //setBlack(i, j);
-                    board[i, j].Click += (sender1, ex) => this.ShowPosition(row, column);
+                    board[i, j].Click += (sender1, ex) => this.movePawn(row, column);
                 }
             }
             setPawns();
@@ -55,10 +63,28 @@ namespace CheckersNetworkGame
                 this.Controls.AddRange(new Field[] { b });
             }
         }
-        public void ShowPosition(int row, int column)
+        public void movePawn(int row, int column)
         {
             textBox3.Text = "Pozycja: " + row + column;
-            board[row, column].Text = "Zmieniono";
+            if ((click==1) && (board[row, column].state == "lightPawn"))
+            {
+                whichPawnMoveRow = row;
+                whichPawnMoveColumn = column;
+                click++;
+                return;
+            }
+            if ((click == 2) && (board[row, column].state == "empty"))
+            {
+                wherePawnMoveRow = row;
+                wherePawnMoveColumn = column;
+                checkMovePropriety();
+                if (isMoveLegal==true)
+                {
+                    click = 1;
+                    setEmpty(whichPawnMoveRow, whichPawnMoveColumn);
+                    setLight(wherePawnMoveRow, wherePawnMoveColumn);
+                }
+            }
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -102,16 +128,34 @@ namespace CheckersNetworkGame
 
         private void setLight(int row, int column)
         {
-            board[row, column].state = 0;
+            board[row, column].state = "lightPawn";
             board[row, column].BackgroundImage = Properties.Resources.LightPawn;
             board[row, column].BackgroundImageLayout = ImageLayout.Stretch;
         }
 
         private void setDark(int row, int column)
         {
-            board[row, column].state = 1;
+            board[row, column].state = "darkPawn";
             board[row, column].BackgroundImage = Properties.Resources.DarkPawn;
             board[row, column].BackgroundImageLayout = ImageLayout.Stretch;
+        }
+        private void setEmpty(int row, int column)
+        {
+            board[row, column].state = "empty";
+            board[row, column].BackgroundImage = Properties.Resources.emptyDark;
+        }
+
+        private void checkMovePropriety()
+        {
+            
+            if ((wherePawnMoveRow==whichPawnMoveRow-1) && ((wherePawnMoveColumn == whichPawnMoveColumn - 1) || (wherePawnMoveColumn == whichPawnMoveColumn + 1)))
+            {
+                isMoveLegal = true;
+            }
+            else
+            {
+                isMoveLegal = false;
+            }
         }
     }
 }
