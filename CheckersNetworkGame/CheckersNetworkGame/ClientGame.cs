@@ -94,7 +94,14 @@ namespace CheckersNetworkGame
                     {
                         click = 1;
                         setEmpty(whichPawnMoveRow, whichPawnMoveColumn);
-                        setDark(wherePawnMoveRow, wherePawnMoveColumn);
+                        if (wherePawnMoveRow == 0)
+                        {
+                            setDarkKing(wherePawnMoveRow, wherePawnMoveColumn);
+                        }
+                        else
+                        {
+                            setDark(wherePawnMoveRow, wherePawnMoveColumn);
+                        }
                         if (hasToGrab == true)
                         {
                             doGrab();
@@ -127,7 +134,14 @@ namespace CheckersNetworkGame
             wherePawnMoveColumn = convertColumn(Convert.ToInt16(messageFromEnemy.Substring(3, 1)));
             isPawnLost = messageFromEnemy.Substring(4, 1);
             setEmpty(whichPawnMoveRow, whichPawnMoveColumn);
-            setLight(wherePawnMoveRow, wherePawnMoveColumn);
+            if (wherePawnMoveRow == 7)
+            {
+                setLightKing(wherePawnMoveRow, wherePawnMoveColumn);
+            }
+            else
+            {
+                setLight(wherePawnMoveRow, wherePawnMoveColumn);
+            }
             if (isPawnLost == "T")
             {
                 doGrab();
@@ -199,6 +213,18 @@ namespace CheckersNetworkGame
         {
             board[row, column].state = "darkPawn";
             board[row, column].BackgroundImage = Properties.Resources.DarkPawn;
+            board[row, column].BackgroundImageLayout = ImageLayout.Stretch;
+        }
+        private void setLightKing(int row, int column)
+        {
+            board[row, column].state = "lightKing";
+            board[row, column].BackgroundImage = Properties.Resources.LightKing;
+            board[row, column].BackgroundImageLayout = ImageLayout.Stretch;
+        }
+        private void setDarkKing(int row, int column)
+        {
+            board[row, column].state = "darkKing";
+            board[row, column].BackgroundImage = Properties.Resources.DarkKing;
             board[row, column].BackgroundImageLayout = ImageLayout.Stretch;
         }
         private void  setEmpty(int row, int column)
