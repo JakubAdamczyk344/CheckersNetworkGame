@@ -34,6 +34,8 @@
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.textBox3 = new System.Windows.Forms.TextBox();
+            this.whoseTurnLabel = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // button1
@@ -85,11 +87,31 @@
             this.textBox3.Size = new System.Drawing.Size(100, 20);
             this.textBox3.TabIndex = 6;
             // 
+            // whoseTurnLabel
+            // 
+            this.whoseTurnLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.whoseTurnLabel.Location = new System.Drawing.Point(50, 9);
+            this.whoseTurnLabel.Name = "whoseTurnLabel";
+            this.whoseTurnLabel.Size = new System.Drawing.Size(400, 29);
+            this.whoseTurnLabel.TabIndex = 7;
+            this.whoseTurnLabel.Text = "Twój ruch";
+            this.whoseTurnLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label3
+            // 
+            this.label3.Location = new System.Drawing.Point(50, 40);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(400, 13);
+            this.label3.TabIndex = 8;
+            this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // ServerGame
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(614, 522);
+            this.ClientSize = new System.Drawing.Size(499, 542);
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.whoseTurnLabel);
             this.Controls.Add(this.textBox3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
@@ -111,5 +133,7 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox textBox3;
+        private System.Windows.Forms.Label whoseTurnLabel;
+        private System.Windows.Forms.Label label3;
     }
 }

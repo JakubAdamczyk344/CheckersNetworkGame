@@ -27,7 +27,10 @@ namespace CheckersNetworkGame
         int wherePawnMoveRow;
         int wherePawnMoveColumn;
         bool isMoveLegal;
+        bool hasToGrab;
+        string isPawnLost;
         public string messageFromEnemy;
+        string whoseTurn;
 
         Field[,] board = new Field[8,8];
 
@@ -36,6 +39,7 @@ namespace CheckersNetworkGame
             InitializeComponent();
             this.server = server;
             server.ServerReceive(this);
+            whoseTurn = "light";
             for (int i = 0; i < 8; i++)
             {
                 for (int j = 0; j < 8;j++)
@@ -60,6 +64,7 @@ namespace CheckersNetworkGame
                 }
             }
             setPawns();
+            hasToGrab = false;
             foreach (Field b in board)
             {
                 this.Controls.AddRange(new Field[] { b });
@@ -67,51 +72,68 @@ namespace CheckersNetworkGame
         }
         public void movePawn(int row, int column)
         {
-            textBox3.Text = "Pozycja: " + row + column;
-            if ((click==1) && (board[row, column].state == "lightPawn"))
+            if (whoseTurn == "light")
             {
-                board[row, column].FlatAppearance.BorderColor = Color.Green;
-                board[row, column].FlatAppearance.BorderSize = 3;
-                whichPawnMoveRow = row;
-                whichPawnMoveColumn = column;
-                click++;
-                return;
-            }
-            if ((click == 2) && (board[row, column].state == "empty"))
-            {
-                wherePawnMoveRow = row;
-                wherePawnMoveColumn = column;
-                checkMovePropriety();
-                if (isMoveLegal==true)
+                textBox3.Text = "Pozycja: " + row + column;
+                if ((click == 1) && (board[row, column].state == "lightPawn"))
                 {
-                    click = 1;
-                    setEmpty(whichPawnMoveRow, whichPawnMoveColumn);
-                    setLight(wherePawnMoveRow, wherePawnMoveColumn);
+                    board[row, column].FlatAppearance.BorderColor = Color.Green;
+                    board[row, column].FlatAppearance.BorderSize = 3;
+                    whichPawnMoveRow = row;
+                    whichPawnMoveColumn = column;
+                    click++;
+                    return;
+                }
+                if ((click == 2) && (board[row, column].state == "empty"))
+                {
+                    wherePawnMoveRow = row;
+                    wherePawnMoveColumn = column;
+                    checkMovePropriety();
+                    if (isMoveLegal == true)
+                    {
+                        click = 1;
+                        setEmpty(whichPawnMoveRow, whichPawnMoveColumn);
+                        setLight(wherePawnMoveRow, wherePawnMoveColumn);
+                        if (hasToGrab==true)
+                        {
+                            doGrab();
+                        }
+                        board[whichPawnMoveRow, whichPawnMoveColumn].FlatAppearance.BorderColor = Color.Black;
+                        board[whichPawnMoveRow, whichPawnMoveColumn].FlatAppearance.BorderSize = 1;
+                        server.ServerSend(whichPawnMoveRow.ToString() + whichPawnMoveColumn.ToString() + wherePawnMoveRow.ToString() + wherePawnMoveColumn.ToString() + hasToGrab);
+                        whoseTurn = "dark";
+                        whoseTurnLabel.Text = "Czekaj na ruch przeciwnika";
+                    }
+                }
+                if ((click == 2) && (board[row, column].state == "lightPawn"))
+                {
+                    board[row, column].FlatAppearance.BorderColor = Color.Green;
+                    board[row, column].FlatAppearance.BorderSize = 3;
                     board[whichPawnMoveRow, whichPawnMoveColumn].FlatAppearance.BorderColor = Color.Black;
                     board[whichPawnMoveRow, whichPawnMoveColumn].FlatAppearance.BorderSize = 1;
-                    server.ServerSend(whichPawnMoveRow.ToString() + whichPawnMoveColumn.ToString() + wherePawnMoveRow.ToString() + wherePawnMoveColumn.ToString());
+                    whichPawnMoveRow = row;
+                    whichPawnMoveColumn = column;
                 }
-            }
-            if ((click == 2) && (board[row, column].state == "lightPawn"))
-            {
-                board[row, column].FlatAppearance.BorderColor = Color.Green;
-                board[row, column].FlatAppearance.BorderSize = 3;
-                board[whichPawnMoveRow, whichPawnMoveColumn].FlatAppearance.BorderColor = Color.Black;
-                board[whichPawnMoveRow, whichPawnMoveColumn].FlatAppearance.BorderSize = 1;
-                whichPawnMoveRow = row;
-                whichPawnMoveColumn = column;
             }
         }
 
         public void enemyMove()
         {
-            textBox3.Text = messageFromEnemy.Substring(0, 1);
+            textBox3.Text = messageFromEnemy.Substring(4, 1);
             whichPawnMoveRow = Convert.ToInt16(messageFromEnemy.Substring(0, 1));
             whichPawnMoveColumn = Convert.ToInt16(messageFromEnemy.Substring(1, 1));
             wherePawnMoveRow = Convert.ToInt16(messageFromEnemy.Substring(2, 1));
             wherePawnMoveColumn = Convert.ToInt16(messageFromEnemy.Substring(3, 1));
+            isPawnLost = messageFromEnemy.Substring(4, 1);
             setEmpty(whichPawnMoveRow, whichPawnMoveColumn);
             setDark(wherePawnMoveRow, wherePawnMoveColumn);
+            if (isPawnLost == "T")
+            {
+                doGrab();
+            }
+            whoseTurn = "light";
+            whoseTurnLabel.Text = "Twój ruch";
+            isGrabPossible();
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -174,8 +196,12 @@ namespace CheckersNetworkGame
 
         private void checkMovePropriety()
         {
-            
-            if ((wherePawnMoveRow==whichPawnMoveRow-1) && ((wherePawnMoveColumn == whichPawnMoveColumn - 1) || (wherePawnMoveColumn == whichPawnMoveColumn + 1)))
+
+            if (((wherePawnMoveRow == whichPawnMoveRow - 1) && ((wherePawnMoveColumn == whichPawnMoveColumn - 1) || (wherePawnMoveColumn == whichPawnMoveColumn + 1))) && hasToGrab == false)
+            {
+                isMoveLegal = true;
+            }
+            else if (((wherePawnMoveRow == whichPawnMoveRow - 2) && ((wherePawnMoveColumn == whichPawnMoveColumn - 2) || (wherePawnMoveColumn == whichPawnMoveColumn + 2))) && hasToGrab == true)
             {
                 isMoveLegal = true;
             }
@@ -183,6 +209,48 @@ namespace CheckersNetworkGame
             {
                 isMoveLegal = false;
             }
+        }
+
+        private void isGrabPossible()
+        {
+            hasToGrab = false;
+            for (int row = 2; row < 8; row++)
+            {
+                for (int column = 0; column < 8; column++)
+                {
+                    if (column < 2)
+                    {
+                        if ((board[row, column].state == "lightPawn") && (board[row - 1, column + 1].state == "darkPawn") && (board[row - 2, column + 2].state == "empty"))
+                        {
+                            hasToGrab = true;
+                        }
+                    }
+                    if ((column >= 2) && (column < 6))
+                    {
+                        if (((board[row, column].state == "lightPawn") && (board[row - 1, column + 1].state == "darkPawn") && (board[row - 2, column + 2].state == "empty")) || ((board[row, column].state == "lightPawn") && (board[row - 1, column - 1].state == "darkPawn") && (board[row - 2, column - 2].state == "empty")))
+                        {
+                            hasToGrab = true;
+                        }
+                    }
+                    if (column >= 6)
+                    {
+                        if ((board[row, column].state == "lightPawn") && (board[row - 1, column - 1].state == "darkPawn") && (board[row - 2, column - 2].state == "empty"))
+                        {
+                            hasToGrab = true;
+                        }
+                    }
+                }
+            }
+            if (hasToGrab == true)
+            {
+                label3.Text = "Masz bicie, musisz je wykonać";
+            }
+        }
+
+        private void doGrab()
+        {
+            setEmpty((wherePawnMoveRow + whichPawnMoveRow)/2, (wherePawnMoveColumn + whichPawnMoveColumn)/2);
+            label3.Text = "";
         }
 
         protected override void OnFormClosing(FormClosingEventArgs e)
