@@ -265,29 +265,59 @@ namespace CheckersNetworkGame
         private void isGrabPossible()
         {
             hasToGrab = false;
-            for (int row = 2; row < 8; row++)
+            for (int row = 0; row < 8; row++)
             {
                 for (int column = 0; column < 8; column++)
                 {
                     if (column < 2)
                     {
-                        if ((board[row,column].state == "darkPawn") && (board[row-1,column+1].state == "lightPawn") && (board[row - 2, column + 2].state == "empty"))
+                        if (row >= 2)
                         {
-                            hasToGrab = true;
+                            if (((board[row, column].state == "darkPawn") || (board[row, column].state == "darkKing")) && ((board[row - 1, column + 1].state == "lighPawn") || (board[row - 1, column + 1].state == "lighKing")) && (board[row - 2, column + 2].state == "empty"))
+                            {
+                                hasToGrab = true;
+                            }
+                        }
+                        if (row <= 5)
+                        {
+                            if ((board[row, column].state == "darkKing") && ((board[row + 1, column + 1].state == "lightPawn") || (board[row - 1, column + 1].state == "lightKing")) && (board[row + 2, column + 2].state == "empty"))
+                            {
+                                hasToGrab = true;
+                            }
                         }
                     }
-                    if ((column >=2) && (column <6))
+                    if ((column >= 2) && (column < 6))
                     {
-                        if (((board[row, column].state == "darkPawn") && (board[row - 1, column + 1].state == "lightPawn") && (board[row - 2, column + 2].state == "empty")) || ((board[row, column].state == "darkPawn") && (board[row - 1, column - 1].state == "lightPawn") && (board[row - 2, column - 2].state == "empty")))//blad
+                        if (row >= 2)
                         {
-                            hasToGrab = true;
+                            if (((board[row, column].state == "darkPawn") || (board[row, column].state == "darkKing")) && ((((board[row - 1, column + 1].state == "lightPawn") || (board[row - 1, column + 1].state == "lightKing")) && (board[row - 2, column + 2].state == "empty")) || (((board[row - 1, column - 1].state == "lightPawn") || (board[row - 1, column - 1].state == "lightKing")) && (board[row - 2, column - 2].state == "empty"))))
+                            {
+                                hasToGrab = true;
+                            }
+                        }
+                        if (row <= 5)
+                        {
+                            if ((board[row, column].state == "darkKing") && ((((board[row + 1, column + 1].state == "lightPawn") || (board[row + 1, column + 1].state == "lightKing")) && (board[row + 2, column + 2].state == "empty")) || (((board[row + 1, column - 1].state == "lightPawn") || (board[row + 1, column - 1].state == "lightKing")) && (board[row + 2, column - 2].state == "empty"))))
+                            {
+                                hasToGrab = true;
+                            }
                         }
                     }
-                    if (column >=6)
+                    if (column >= 6)
                     {
-                        if ((board[row, column].state == "darkPawn") && (board[row - 1, column - 1].state == "lightPawn") && (board[row - 2, column - 2].state == "empty"))
+                        if (row >= 2)
                         {
-                            hasToGrab = true;
+                            if (((board[row, column].state == "darkPawn") || (board[row, column].state == "darkKing")) && ((board[row - 1, column - 1].state == "lightPawn") || (board[row - 1, column - 1].state == "lightKing")) && (board[row - 2, column - 2].state == "empty"))
+                            {
+                                hasToGrab = true;
+                            }
+                        }
+                        if (row <= 5)
+                        {
+                            if ((board[row, column].state == "darkKing") && ((board[row + 1, column - 1].state == "lightPawn") || (board[row + 1, column - 1].state == "lightKing")) && (board[row + 2, column - 2].state == "empty"))
+                            {
+                                hasToGrab = true;
+                            }
                         }
                     }
                 }
