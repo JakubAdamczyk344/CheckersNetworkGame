@@ -21,6 +21,8 @@ namespace CheckersNetworkGame
             public string state;
         }
 
+        int numberOfLightPawns;
+        int numberOfDarkPawns;
         int click=1;
         int whichPawnMoveRow;
         int whichPawnMoveColumn;
@@ -40,6 +42,8 @@ namespace CheckersNetworkGame
             this.server = server;
             server.ServerReceive(this);
             whoseTurn = "light";
+            numberOfLightPawns = 12;
+            numberOfDarkPawns = 12;
             for (int i = 0; i < 8; i++)
             {
                 for (int j = 0; j < 8;j++)
@@ -108,12 +112,14 @@ namespace CheckersNetworkGame
                         if (hasToGrab==true)
                         {
                             doGrab();
+                            numberOfDarkPawns--;
                         }
                         board[whichPawnMoveRow, whichPawnMoveColumn].FlatAppearance.BorderColor = Color.Black;
                         board[whichPawnMoveRow, whichPawnMoveColumn].FlatAppearance.BorderSize = 1;
                         server.ServerSend(whichPawnMoveRow.ToString() + whichPawnMoveColumn.ToString() + wherePawnMoveRow.ToString() + wherePawnMoveColumn.ToString() + hasToGrab);
                         whoseTurn = "dark";
                         whoseTurnLabel.Text = "Czekaj na ruch przeciwnika";
+                        checkIfGameIsOver();
                     }
                 }
                 if ((click == 2) && ((board[row, column].state == "lightPawn") || (board[row, column].state == "lightKing")))
@@ -152,10 +158,12 @@ namespace CheckersNetworkGame
             if (isPawnLost == "T")
             {
                 doGrab();
+                numberOfLightPawns--;
             }
             whoseTurn = "light";
             whoseTurnLabel.Text = "Twój ruch";
             isGrabPossible();
+            checkIfGameIsOver();
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -271,7 +279,7 @@ namespace CheckersNetworkGame
                         }
                         if (row <= 5)
                         {
-                            if ((board[row, column].state == "lightKing") && ((board[row + 1, column + 1].state == "darkPawn") || (board[row - 1, column + 1].state == "darkKing")) && (board[row + 2, column + 2].state == "empty"))
+                            if ((board[row, column].state == "lightKing") && ((board[row + 1, column + 1].state == "darkPawn") || (board[row + 1, column + 1].state == "darkKing")) && (board[row + 2, column + 2].state == "empty"))
                             {
                                 hasToGrab = true;
                             }
@@ -323,6 +331,18 @@ namespace CheckersNetworkGame
         {
             setEmpty((wherePawnMoveRow + whichPawnMoveRow)/2, (wherePawnMoveColumn + whichPawnMoveColumn)/2);
             label3.Text = "";
+        }
+
+        public void checkIfGameIsOver()
+        {
+            if (numberOfDarkPawns == 0)
+            {
+                whoseTurnLabel.Text = "Wygrałeś";
+            }
+            if (numberOfLightPawns == 0)
+            {
+                whoseTurnLabel.Text = "Przegrałeś";
+            }
         }
 
         protected override void OnFormClosing(FormClosingEventArgs e)
