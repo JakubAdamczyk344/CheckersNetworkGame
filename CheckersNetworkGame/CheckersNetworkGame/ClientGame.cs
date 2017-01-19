@@ -76,7 +76,7 @@ namespace CheckersNetworkGame
             if (whoseTurn == "dark")
             {
                 textBox3.Text = "Pozycja: " + row + column;
-                if ((click == 1) && (board[row, column].state == "darkPawn"))
+                if ((click == 1) && ((board[row, column].state == "darkPawn") || (board[row, column].state == "darkKing")))
                 {
                     board[row, column].FlatAppearance.BorderColor = Color.Green;
                     board[row, column].FlatAppearance.BorderSize = 3;
@@ -93,8 +93,11 @@ namespace CheckersNetworkGame
                     if (isMoveLegal == true)
                     {
                         click = 1;
-                        setEmpty(whichPawnMoveRow, whichPawnMoveColumn);
-                        if (wherePawnMoveRow == 0)
+                        if (board[whichPawnMoveRow, whichPawnMoveColumn].state == "darkKing")
+                        {
+                            setDarkKing(wherePawnMoveRow, wherePawnMoveColumn);
+                        }
+                        else if (wherePawnMoveRow == 0)
                         {
                             setDarkKing(wherePawnMoveRow, wherePawnMoveColumn);
                         }
@@ -102,6 +105,7 @@ namespace CheckersNetworkGame
                         {
                             setDark(wherePawnMoveRow, wherePawnMoveColumn);
                         }
+                        setEmpty(whichPawnMoveRow, whichPawnMoveColumn);
                         if (hasToGrab == true)
                         {
                             doGrab();
@@ -113,7 +117,7 @@ namespace CheckersNetworkGame
                         whoseTurnLabel.Text = "Czekaj na ruch przeciwnika";
                     }
                 }
-                if ((click == 2) && (board[row, column].state == "darkPawn"))
+                if ((click == 2) && ((board[row, column].state == "darkPawn") || (board[row, column].state == "darkKing")))
                 {
                     board[row, column].FlatAppearance.BorderColor = Color.Green;
                     board[row, column].FlatAppearance.BorderSize = 3;
@@ -133,8 +137,11 @@ namespace CheckersNetworkGame
             wherePawnMoveRow = convertRow(Convert.ToInt16(messageFromEnemy.Substring(2, 1)));
             wherePawnMoveColumn = convertColumn(Convert.ToInt16(messageFromEnemy.Substring(3, 1)));
             isPawnLost = messageFromEnemy.Substring(4, 1);
-            setEmpty(whichPawnMoveRow, whichPawnMoveColumn);
-            if (wherePawnMoveRow == 7)
+            if (board[whichPawnMoveRow, whichPawnMoveColumn].state == "lightKing")
+            {
+                setLightKing(wherePawnMoveRow, wherePawnMoveColumn);
+            }
+            else if (wherePawnMoveRow == 7)
             {
                 setLightKing(wherePawnMoveRow, wherePawnMoveColumn);
             }
@@ -142,6 +149,7 @@ namespace CheckersNetworkGame
             {
                 setLight(wherePawnMoveRow, wherePawnMoveColumn);
             }
+            setEmpty(whichPawnMoveRow, whichPawnMoveColumn);
             if (isPawnLost == "T")
             {
                 doGrab();
@@ -237,6 +245,10 @@ namespace CheckersNetworkGame
         {
 
             if (((wherePawnMoveRow == whichPawnMoveRow - 1) && ((wherePawnMoveColumn == whichPawnMoveColumn - 1) || (wherePawnMoveColumn == whichPawnMoveColumn + 1))) && hasToGrab == false)
+            {
+                isMoveLegal = true;
+            }
+            else if (board[whichPawnMoveRow, whichPawnMoveColumn].state == "darkKing" && ((wherePawnMoveRow == whichPawnMoveRow + 1) && ((wherePawnMoveColumn == whichPawnMoveColumn - 1) || (wherePawnMoveColumn == whichPawnMoveColumn + 1))) && hasToGrab == false)
             {
                 isMoveLegal = true;
             }

@@ -75,7 +75,7 @@ namespace CheckersNetworkGame
             if (whoseTurn == "light")
             {
                 textBox3.Text = "Pozycja: " + row + column;
-                if ((click == 1) && (board[row, column].state == "lightPawn"))
+                if ((click == 1) && ((board[row, column].state == "lightPawn") || (board[row, column].state == "lightKing")))
                 {
                     board[row, column].FlatAppearance.BorderColor = Color.Green;
                     board[row, column].FlatAppearance.BorderSize = 3;
@@ -92,8 +92,11 @@ namespace CheckersNetworkGame
                     if (isMoveLegal == true)
                     {
                         click = 1;
-                        setEmpty(whichPawnMoveRow, whichPawnMoveColumn);
-                        if (wherePawnMoveRow == 0)
+                        if (board[whichPawnMoveRow, whichPawnMoveColumn].state == "lightKing")
+                        {
+                            setLightKing(wherePawnMoveRow, wherePawnMoveColumn);
+                        }
+                        else if (wherePawnMoveRow == 0)
                         {
                             setLightKing(wherePawnMoveRow, wherePawnMoveColumn);
                         }
@@ -101,6 +104,7 @@ namespace CheckersNetworkGame
                         {
                             setLight(wherePawnMoveRow, wherePawnMoveColumn);
                         }
+                        setEmpty(whichPawnMoveRow, whichPawnMoveColumn);
                         if (hasToGrab==true)
                         {
                             doGrab();
@@ -112,7 +116,7 @@ namespace CheckersNetworkGame
                         whoseTurnLabel.Text = "Czekaj na ruch przeciwnika";
                     }
                 }
-                if ((click == 2) && (board[row, column].state == "lightPawn"))
+                if ((click == 2) && ((board[row, column].state == "lightPawn") || (board[row, column].state == "lightKing")))
                 {
                     board[row, column].FlatAppearance.BorderColor = Color.Green;
                     board[row, column].FlatAppearance.BorderSize = 3;
@@ -132,8 +136,11 @@ namespace CheckersNetworkGame
             wherePawnMoveRow = Convert.ToInt16(messageFromEnemy.Substring(2, 1));
             wherePawnMoveColumn = Convert.ToInt16(messageFromEnemy.Substring(3, 1));
             isPawnLost = messageFromEnemy.Substring(4, 1);
-            setEmpty(whichPawnMoveRow, whichPawnMoveColumn);
-            if (wherePawnMoveRow == 7)
+            if (board[whichPawnMoveRow, whichPawnMoveColumn].state == "darkKing")
+            {
+                setDarkKing(wherePawnMoveRow, wherePawnMoveColumn);
+            }
+            else if (wherePawnMoveRow == 7)
             {
                 setDarkKing(wherePawnMoveRow, wherePawnMoveColumn);
             }
@@ -141,6 +148,7 @@ namespace CheckersNetworkGame
             {
                 setDark(wherePawnMoveRow, wherePawnMoveColumn);
             }
+            setEmpty(whichPawnMoveRow, whichPawnMoveColumn);
             if (isPawnLost == "T")
             {
                 doGrab();
@@ -227,7 +235,15 @@ namespace CheckersNetworkGame
             {
                 isMoveLegal = true;
             }
+            else if (board[whichPawnMoveRow,whichPawnMoveColumn].state == "lightKing" && ((wherePawnMoveRow == whichPawnMoveRow + 1) && ((wherePawnMoveColumn == whichPawnMoveColumn - 1) || (wherePawnMoveColumn == whichPawnMoveColumn + 1))) && hasToGrab == false)
+            {
+                isMoveLegal = true;
+            }
             else if (((wherePawnMoveRow == whichPawnMoveRow - 2) && ((wherePawnMoveColumn == whichPawnMoveColumn - 2) || (wherePawnMoveColumn == whichPawnMoveColumn + 2))) && hasToGrab == true)
+            {
+                isMoveLegal = true;
+            }
+            else if (board[whichPawnMoveRow, whichPawnMoveColumn].state == "lightKing" && ((wherePawnMoveRow == whichPawnMoveRow + 2) && ((wherePawnMoveColumn == whichPawnMoveColumn - 2) || (wherePawnMoveColumn == whichPawnMoveColumn + 2))) && hasToGrab == true)
             {
                 isMoveLegal = true;
             }
@@ -237,7 +253,7 @@ namespace CheckersNetworkGame
             }
         }
 
-        private void isGrabPossible()
+        private void isGrabPossible() //zabezpieczyć się przed przeszukiwaniem tablicy poza jej rozmiarem w przypadku damki
         {
             hasToGrab = false;
             for (int row = 2; row < 8; row++)
@@ -246,21 +262,33 @@ namespace CheckersNetworkGame
                 {
                     if (column < 2)
                     {
-                        if ((board[row, column].state == "lightPawn") && (board[row - 1, column + 1].state == "darkPawn") && (board[row - 2, column + 2].state == "empty"))
+                        if (((board[row, column].state == "lightPawn") || (board[row, column].state == "lightKing")) && (board[row - 1, column + 1].state == "darkPawn") && (board[row - 2, column + 2].state == "empty"))
+                        {
+                            hasToGrab = true;
+                        }
+                        if ((board[row, column].state == "lightKing") && (board[row + 1, column + 1].state == "darkPawn") && (board[row + 2, column + 2].state == "empty"))
                         {
                             hasToGrab = true;
                         }
                     }
                     if ((column >= 2) && (column < 6))
                     {
-                        if (((board[row, column].state == "lightPawn") && (board[row - 1, column + 1].state == "darkPawn") && (board[row - 2, column + 2].state == "empty")) || ((board[row, column].state == "lightPawn") && (board[row - 1, column - 1].state == "darkPawn") && (board[row - 2, column - 2].state == "empty")))
+                        if ((((board[row, column].state == "lightPawn") || (board[row, column].state == "lightKing")) && (board[row - 1, column + 1].state == "darkPawn") && (board[row - 2, column + 2].state == "empty")) || ((board[row, column].state == "lightPawn") && (board[row - 1, column - 1].state == "darkPawn") && (board[row - 2, column - 2].state == "empty")))
+                        {
+                            hasToGrab = true;
+                        }
+                        if (((board[row, column].state == "lightKing") && (board[row + 1, column + 1].state == "darkPawn") && (board[row + 2, column + 2].state == "empty")) || ((board[row, column].state == "lightPawn") && (board[row + 1, column - 1].state == "darkPawn") && (board[row + 2, column - 2].state == "empty")))
                         {
                             hasToGrab = true;
                         }
                     }
                     if (column >= 6)
                     {
-                        if ((board[row, column].state == "lightPawn") && (board[row - 1, column - 1].state == "darkPawn") && (board[row - 2, column - 2].state == "empty"))
+                        if (((board[row, column].state == "lightPawn") || (board[row, column].state == "lightKing")) && (board[row - 1, column - 1].state == "darkPawn") && (board[row - 2, column - 2].state == "empty"))
+                        {
+                            hasToGrab = true;
+                        }
+                        if ((board[row, column].state == "lightKing") && (board[row + 1, column - 1].state == "darkPawn") && (board[row + 2, column - 2].state == "empty"))
                         {
                             hasToGrab = true;
                         }
