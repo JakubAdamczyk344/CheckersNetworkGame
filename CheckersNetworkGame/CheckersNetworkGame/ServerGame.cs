@@ -24,6 +24,7 @@ namespace CheckersNetworkGame
         int numberOfLightPawns;
         int numberOfDarkPawns;
         int click=1;
+        int whichMessageFromEnemy = 1;
         int whichPawnMoveRow;
         int whichPawnMoveColumn;
         int wherePawnMoveRow;
@@ -31,6 +32,7 @@ namespace CheckersNetworkGame
         bool isMoveLegal;
         bool hasToGrab;
         string isPawnLost;
+        string isMoveOver;
         public string messageFromEnemy;
         string whoseTurn;
 
@@ -117,8 +119,29 @@ namespace CheckersNetworkGame
                         board[whichPawnMoveRow, whichPawnMoveColumn].FlatAppearance.BorderColor = Color.Black;
                         board[whichPawnMoveRow, whichPawnMoveColumn].FlatAppearance.BorderSize = 1;
                         server.ServerSend(whichPawnMoveRow.ToString() + whichPawnMoveColumn.ToString() + wherePawnMoveRow.ToString() + wherePawnMoveColumn.ToString() + hasToGrab);
-                        whoseTurn = "dark";
-                        whoseTurnLabel.Text = "Czekaj na ruch przeciwnika";
+                        if (hasToGrab == true)
+                        {
+                            isGrabPossible();
+                            if (hasToGrab == true)
+                            {
+                                whoseTurn = "light";
+                                whoseTurnLabel.Text = "Twój ruch";
+                                isMoveOver = "N";
+                            }
+                            else
+                            {
+                                whoseTurn = "dark";
+                                whoseTurnLabel.Text = "Czekaj na ruch przeciwnika";
+                                isMoveOver = "Y";
+                            }
+                        }
+                        else
+                        {
+                            whoseTurn = "dark";
+                            whoseTurnLabel.Text = "Czekaj na ruch przeciwnika";
+                            isMoveOver = "Y";
+                        }
+                        server.ServerSend(isMoveOver);
                         checkIfGameIsOver();
                     }
                 }
@@ -136,34 +159,54 @@ namespace CheckersNetworkGame
 
         public void enemyMove()
         {
-            textBox3.Text = messageFromEnemy.Substring(4, 1);
-            whichPawnMoveRow = Convert.ToInt16(messageFromEnemy.Substring(0, 1));
-            whichPawnMoveColumn = Convert.ToInt16(messageFromEnemy.Substring(1, 1));
-            wherePawnMoveRow = Convert.ToInt16(messageFromEnemy.Substring(2, 1));
-            wherePawnMoveColumn = Convert.ToInt16(messageFromEnemy.Substring(3, 1));
-            isPawnLost = messageFromEnemy.Substring(4, 1);
-            if (board[whichPawnMoveRow, whichPawnMoveColumn].state == "darkKing")
+            if (whichMessageFromEnemy == 1)
             {
-                setDarkKing(wherePawnMoveRow, wherePawnMoveColumn);
+                textBox3.Text = messageFromEnemy.Substring(4, 1);
+                whichPawnMoveRow = Convert.ToInt16(messageFromEnemy.Substring(0, 1));
+                whichPawnMoveColumn = Convert.ToInt16(messageFromEnemy.Substring(1, 1));
+                wherePawnMoveRow = Convert.ToInt16(messageFromEnemy.Substring(2, 1));
+                wherePawnMoveColumn = Convert.ToInt16(messageFromEnemy.Substring(3, 1));
+                isPawnLost = messageFromEnemy.Substring(4, 1);
+                if (board[whichPawnMoveRow, whichPawnMoveColumn].state == "darkKing")
+                {
+                    setDarkKing(wherePawnMoveRow, wherePawnMoveColumn);
+                }
+                else if (wherePawnMoveRow == 7)
+                {
+                    setDarkKing(wherePawnMoveRow, wherePawnMoveColumn);
+                }
+                else
+                {
+                    setDark(wherePawnMoveRow, wherePawnMoveColumn);
+                }
+                setEmpty(whichPawnMoveRow, whichPawnMoveColumn);
+                if (isPawnLost == "T")
+                {
+                    doGrab();
+                    numberOfLightPawns--;
+                }
+                whichMessageFromEnemy = 2;
+                return;
             }
-            else if (wherePawnMoveRow == 7)
+            if (whichMessageFromEnemy == 2)
             {
-                setDarkKing(wherePawnMoveRow, wherePawnMoveColumn);
+                isMoveOver = messageFromEnemy.Substring(0, 1);
+                if (isMoveOver=="N")
+                {
+                    whoseTurn = "dark";
+                    whoseTurnLabel.Text = "Czekaj na ruch przeciwnika";
+                    //isGrabPossible();
+                    checkIfGameIsOver();
+                }
+                if (isMoveOver == "Y")
+                {
+                    whoseTurn = "light";
+                    whoseTurnLabel.Text = "Twój ruch";
+                    isGrabPossible();
+                    checkIfGameIsOver();
+                }
+                whichMessageFromEnemy = 1;
             }
-            else
-            {
-                setDark(wherePawnMoveRow, wherePawnMoveColumn);
-            }
-            setEmpty(whichPawnMoveRow, whichPawnMoveColumn);
-            if (isPawnLost == "T")
-            {
-                doGrab();
-                numberOfLightPawns--;
-            }
-            whoseTurn = "light";
-            whoseTurnLabel.Text = "Twój ruch";
-            isGrabPossible();
-            checkIfGameIsOver();
         }
 
         private void button1_Click(object sender, EventArgs e)
