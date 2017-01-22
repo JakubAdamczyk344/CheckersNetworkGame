@@ -178,7 +178,6 @@ namespace CheckersNetworkGame
             //i czy dochodzi do bicia)
             if (whichMessageFromEnemy == 1)
             {
-                textBox3.Text = messageFromEnemy.Substring(4, 1);
                 whichPawnMoveRow = Convert.ToInt16(messageFromEnemy.Substring(0, 1));
                 whichPawnMoveColumn = Convert.ToInt16(messageFromEnemy.Substring(1, 1));
                 wherePawnMoveRow = Convert.ToInt16(messageFromEnemy.Substring(2, 1));
@@ -226,11 +225,6 @@ namespace CheckersNetworkGame
                 checkIfGameIsOver(); //sprawdzamy, czy gra się zakończyła
                 whichMessageFromEnemy = 1;
             }
-        }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-            server.ServerSend(textBox1.Text);
         }
 
         private void setPawns() //początkowe rozstawienie pionków

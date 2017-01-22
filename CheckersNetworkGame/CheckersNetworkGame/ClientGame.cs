@@ -178,7 +178,6 @@ namespace CheckersNetworkGame
             //i czy dochodzi do bicia)
             if (whichMessageFromEnemy == 1)
             {
-                textBox3.Text = messageFromEnemy.Substring(4, 1);
                 whichPawnMoveRow = convertRow(Convert.ToInt16(messageFromEnemy.Substring(0, 1)));
                 whichPawnMoveColumn = convertColumn(Convert.ToInt16(messageFromEnemy.Substring(1, 1)));
                 wherePawnMoveRow = convertRow(Convert.ToInt16(messageFromEnemy.Substring(2, 1)));
@@ -204,7 +203,7 @@ namespace CheckersNetworkGame
                 if (isPawnLost == "T") //wykonać bicie, jeśli do niego dochodzi
                 {
                     doGrab();
-                    numberOfLightPawns--; //zmniejszyć licznik naszych pionków
+                    numberOfDarkPawns--; //zmniejszyć licznik naszych pionków
                 }
                 whichMessageFromEnemy = 2; //ustalić, że czekamy na drugą wiadomość
                 return;
@@ -226,11 +225,6 @@ namespace CheckersNetworkGame
                 checkIfGameIsOver(); //sprawdzamy, czy gra się zakończyła
                 whichMessageFromEnemy = 1;
             }
-        }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-            client.ClientSend(textBox1.Text);
         }
 
         private void setPawns() //początkowe rozstawienie pionków
