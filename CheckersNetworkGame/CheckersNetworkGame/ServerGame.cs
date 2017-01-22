@@ -86,7 +86,6 @@ namespace CheckersNetworkGame
         {
             if (whoseTurn == "light") //sprawdzenie, czy gracz ma prawo ruchu
             {
-                textBox3.Text = "Pozycja: " + row + column;
                 //pierwsze kliknięcie, jeśli gracz klika na swój pionek lub damkę to dodać zieloną ramkę
                 //i zapisać współrzędne pionka, który gracz ma zamiar poruszyć
                 if ((click == 1) && ((board[row, column].state == "lightPawn") || (board[row, column].state == "lightKing")))
@@ -327,7 +326,7 @@ namespace CheckersNetworkGame
         }
         //sprawdzenie czy jest możliwość bicia, metoda jest rozbita na kilka instrukcji warunkowych, bo w zależności
         //od tego czy mamy do czynienia z damką czy pionkiem i gdzie stoimy mamy różne ograniczenia
-        //(między innymi nie możemy sprawdzać poza wymiarami tablicy)
+        //(między innymi nie możemy sprawdzać poza wymiarami tablicy bo wywołamy błąd działania programu)
         private void isGrabPossible()
         {
             hasToGrab = false;
