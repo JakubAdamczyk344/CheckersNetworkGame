@@ -73,7 +73,7 @@ namespace CheckersNetworkGame
 
         protected override void OnFormClosing(FormClosingEventArgs e)
         {
-            Application.Exit();
+            Environment.Exit(0);
         }
 
         public void ServerReceive(ServerGame serverGame)

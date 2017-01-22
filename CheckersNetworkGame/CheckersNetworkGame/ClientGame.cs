@@ -203,7 +203,6 @@ namespace CheckersNetworkGame
                 {
                     whoseTurn = "light";
                     whoseTurnLabel.Text = "Czekaj na ruch przeciwnika";
-                    //isGrabPossible();
                     checkIfGameIsOver();
                 }
                 whichMessageFromEnemy = 1;
@@ -403,7 +402,7 @@ namespace CheckersNetworkGame
 
         protected override void OnFormClosing(FormClosingEventArgs e)
         {
-            Application.Exit();
+            Environment.Exit(0);
         }
     }
 }

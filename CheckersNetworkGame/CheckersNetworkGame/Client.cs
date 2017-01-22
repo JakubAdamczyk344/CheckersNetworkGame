@@ -48,7 +48,7 @@ namespace CheckersNetworkGame
         }
         protected override void OnFormClosing(FormClosingEventArgs e)
         {
-            Application.Exit();
+            Environment.Exit(0);
         }
         
         private void button2_Click(object sender, EventArgs e)
