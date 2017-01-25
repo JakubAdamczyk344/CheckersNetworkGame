@@ -55,17 +55,23 @@
     <Compile Include="Client.Designer.cs">
       <DependentUpon>Client.cs</DependentUpon>
     </Compile>
-    <Compile Include="Form1.cs">
+    <Compile Include="Witaj.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <Compile Include="Witaj.Designer.cs">
+      <DependentUpon>Witaj.cs</DependentUpon>
     </Compile>
     <Compile Include="ClientGame.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="ClientGame.Designer.cs">
       <DependentUpon>ClientGame.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GameRules.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GameRules.Designer.cs">
+      <DependentUpon>GameRules.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -89,11 +95,14 @@
     <EmbeddedResource Include="Client.resx">
       <DependentUpon>Client.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Form1.resx">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <EmbeddedResource Include="Witaj.resx">
+      <DependentUpon>Witaj.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ClientGame.resx">
       <DependentUpon>ClientGame.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GameRules.resx">
+      <DependentUpon>GameRules.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

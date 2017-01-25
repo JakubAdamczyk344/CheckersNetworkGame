@@ -50,7 +50,7 @@ namespace CheckersNetworkGame
                 listBox1.Items.Add("Uruchomiono serwer, oczekuję na połączenie nowego gracza");
                 button3.Enabled = true;
 
-                client = server.AcceptTcpClient(); //Waits for the Client To Connect
+                client = server.AcceptTcpClient(); //oczekiwanie na połączenie klienta
                 ServerGame serverGame = new ServerGame(this); //Otwarcie okna z grą
                 this.Hide();
                 serverGame.Show();

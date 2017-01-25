@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace CheckersNetworkGame
 {
-    public partial class Form1 : Form
+    public partial class Witaj : Form
     {
-        public Form1()
+        public Witaj()
         {
             InitializeComponent();
         }
@@ -20,8 +20,6 @@ namespace CheckersNetworkGame
         private void button1_Click(object sender, EventArgs e)
         {
             Server server = new Server();
-            //ServerGame serverGame = new ServerGame();
-            //serverGame.Show();
             this.Hide();
             server.Show();
         }
@@ -31,6 +29,12 @@ namespace CheckersNetworkGame
             Client client = new Client();
             this.Hide();
             client.Show();
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            GameRules gameRules = new GameRules();
+            gameRules.Show();
         }
     }
 }

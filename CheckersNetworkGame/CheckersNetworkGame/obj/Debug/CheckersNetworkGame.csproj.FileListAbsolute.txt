@@ -18,9 +18,10 @@ F:\KUBA\MAGISTERKA\Semestr2\Programowanie sieciowe\ProjektWarcaby\CheckersNetwor
 F:\KUBA\MAGISTERKA\Semestr2\Programowanie sieciowe\ProjektWarcaby\CheckersNetworkGame\CheckersNetworkGame\bin\Debug\CheckersNetworkGame.pdb
 F:\KUBA\MAGISTERKA\Semestr2\Programowanie sieciowe\ProjektWarcaby\CheckersNetworkGame\CheckersNetworkGame\obj\Debug\CheckersNetworkGame.csprojResolveAssemblyReference.cache
 F:\KUBA\MAGISTERKA\Semestr2\Programowanie sieciowe\ProjektWarcaby\CheckersNetworkGame\CheckersNetworkGame\obj\Debug\CheckersNetworkGame.Client.resources
-F:\KUBA\MAGISTERKA\Semestr2\Programowanie sieciowe\ProjektWarcaby\CheckersNetworkGame\CheckersNetworkGame\obj\Debug\CheckersNetworkGame.Form1.resources
 F:\KUBA\MAGISTERKA\Semestr2\Programowanie sieciowe\ProjektWarcaby\CheckersNetworkGame\CheckersNetworkGame\obj\Debug\CheckersNetworkGame.ClientGame.resources
 F:\KUBA\MAGISTERKA\Semestr2\Programowanie sieciowe\ProjektWarcaby\CheckersNetworkGame\CheckersNetworkGame\obj\Debug\CheckersNetworkGame.Properties.Resources.resources
 F:\KUBA\MAGISTERKA\Semestr2\Programowanie sieciowe\ProjektWarcaby\CheckersNetworkGame\CheckersNetworkGame\obj\Debug\CheckersNetworkGame.Server.resources
 F:\KUBA\MAGISTERKA\Semestr2\Programowanie sieciowe\ProjektWarcaby\CheckersNetworkGame\CheckersNetworkGame\obj\Debug\CheckersNetworkGame.ServerGame.resources
 F:\KUBA\MAGISTERKA\Semestr2\Programowanie sieciowe\ProjektWarcaby\CheckersNetworkGame\CheckersNetworkGame\obj\Debug\CheckersNetworkGame.csproj.GenerateResource.Cache
+F:\KUBA\MAGISTERKA\Semestr2\Programowanie sieciowe\ProjektWarcaby\CheckersNetworkGame\CheckersNetworkGame\obj\Debug\CheckersNetworkGame.Witaj.resources
+F:\KUBA\MAGISTERKA\Semestr2\Programowanie sieciowe\ProjektWarcaby\CheckersNetworkGame\CheckersNetworkGame\obj\Debug\CheckersNetworkGame.GameRules.resources
